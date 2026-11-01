@@ -1,0 +1,20 @@
+[
+  {
+    "name": "STM32F4-Discovery",
+    "description": "STM32F407 Discovery kit (generic STM32F4; runs most STM32F4 firmware, no DWT yet)",
+    "status": "complete",
+    "platform": "platforms/boards/stm32f4_discovery-kit.repl"
+  },
+  {
+    "name": "NUCLEO-F767ZI",
+    "description": "NUCLEO-F767ZI (STM32F7, modelled on the F777 CPU description)",
+    "status": "complete",
+    "platform": "platforms/boards/nucleo_f767zi.repl"
+  },
+  {
+    "name": "STM32F103",
+    "description": "STM32F103 (no RCC model yet: HAL clock setup fails)",
+    "status": "incomplete",
+    "platform": "platforms/cpus/stm32f103.repl"
+  }
+]

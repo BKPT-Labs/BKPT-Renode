@@ -53,6 +53,11 @@ namespace Antmicro.Renode
                 Console.Out.WriteLine(LongVersionString);
                 return;
             }
+            if(options.ListModels)
+            {
+                Environment.ExitCode = DebugSessions.DebugSession.PrintModels(options.IncludeIncomplete);
+                return;
+            }
             ConfigureEnvironment(options);
 
             /*
@@ -92,6 +97,10 @@ namespace Antmicro.Renode
                             var wsAPI = new WebSockets.WebSocketAPI(options.ServerModeWorkDir);
                             Emulator.BeforeExit += wsAPI.Dispose;
                             wsAPI.Start();
+                        }
+                        if(options.DebugSession)
+                        {
+                            DebugSessions.DebugSession.Start(options);
                         }
                     });
                 }
