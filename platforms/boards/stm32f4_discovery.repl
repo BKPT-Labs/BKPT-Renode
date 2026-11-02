@@ -1,5 +1,9 @@
 using "platforms/cpus/stm32f4.repl"
 
+// 8 MHz crystal (X2)
+rcc:
+    hseFrequency: 8000000
+
 UserButton: Miscellaneous.Button @ gpioPortA
     -> gpioPortA@0
 

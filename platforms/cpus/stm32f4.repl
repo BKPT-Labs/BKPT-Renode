@@ -37,7 +37,8 @@ can2: CAN.STMCAN @ sysbus <0x40006800, +0x400>
 
 nvic: IRQControllers.NVIC @ sysbus 0xE000E000
     priorityMask: 0xF0
-    systickFrequency: 72000000
+    // The reset clock (HSI); rcc follows the firmware's clock setup from here
+    systickFrequency: 16000000
     IRQ -> cpu@0
 
 cpu: CPU.CortexM @ sysbus
@@ -172,82 +173,126 @@ rtc: Timers.STM32F4_RTC @ sysbus 0x40002800
 
 rcc: Miscellaneous.STM32F4_RCC @ sysbus 0x40023800
     rtcPeripheral: rtc
+    // Drives systick and the registered timers; their frequencies below are the reset clock (HSI)
+    systick: nvic
     Timer9Reset -> timer9@255
 
-timer1: Timers.STM32_Timer @ sysbus 0x40010000
+timer1: Timers.STM32_Timer @ {
+        sysbus 0x40010000;
+        rcc TimerClock.APB2
+    }
     BreakInterrupt -> nvic@24
     UpdateInterrupt -> nvic@25
     [TriggerInterrupt, CommutationInterrupt] -> nvic@[26, 26]
     CaptureCompareInterrupt -> nvic@27
-    frequency: 10000000
+    frequency: 16000000
     initialLimit: 0xFFFF
 
-timer2: Timers.STM32_Timer @ sysbus 0x40000000
+timer2: Timers.STM32_Timer @ {
+        sysbus 0x40000000;
+        rcc TimerClock.APB1
+    }
     -> nvic@28
-    frequency: 10000000
+    frequency: 16000000
     initialLimit: 0xFFFFFFFF
 
-timer3: Timers.STM32_Timer @ sysbus 0x40000400
+timer3: Timers.STM32_Timer @ {
+        sysbus 0x40000400;
+        rcc TimerClock.APB1
+    }
     -> nvic@29
-    frequency: 10000000
+    frequency: 16000000
     initialLimit: 0xFFFF
 
-timer4: Timers.STM32_Timer @ sysbus 0x40000800
+timer4: Timers.STM32_Timer @ {
+        sysbus 0x40000800;
+        rcc TimerClock.APB1
+    }
     -> nvic@30
-    frequency: 10000000
+    frequency: 16000000
     initialLimit: 0xFFFF
 
-timer5: Timers.STM32_Timer @ sysbus 0x40000C00
+timer5: Timers.STM32_Timer @ {
+        sysbus 0x40000C00;
+        rcc TimerClock.APB1
+    }
     -> nvic@50
-    frequency: 10000000
+    frequency: 16000000
     initialLimit: 0xFFFFFFFF
 
-timer6: Timers.STM32_Timer @ sysbus 0x40001000
+timer6: Timers.STM32_Timer @ {
+        sysbus 0x40001000;
+        rcc TimerClock.APB1
+    }
     -> nvic@54
-    frequency: 10000000
+    frequency: 16000000
     initialLimit: 0xFFFF
 
-timer7: Timers.STM32_Timer @ sysbus 0x40001400
+timer7: Timers.STM32_Timer @ {
+        sysbus 0x40001400;
+        rcc TimerClock.APB1
+    }
     -> nvic@55
-    frequency: 10000000
+    frequency: 16000000
     initialLimit: 0xFFFF
 
-timer8: Timers.STM32_Timer @ sysbus 0x40010400
+timer8: Timers.STM32_Timer @ {
+        sysbus 0x40010400;
+        rcc TimerClock.APB2
+    }
     BreakInterrupt -> nvic@43
     UpdateInterrupt -> nvic@44
     [TriggerInterrupt, CommutationInterrupt] -> nvic@[45, 45]
     CaptureCompareInterrupt -> nvic@46
-    frequency: 10000000
+    frequency: 16000000
     initialLimit: 0xFFFF
 
-timer9: Timers.STM32_Timer @ sysbus 0x40014000
+timer9: Timers.STM32_Timer @ {
+        sysbus 0x40014000;
+        rcc TimerClock.APB2
+    }
     -> nvic@24
-    frequency: 10000000
+    frequency: 16000000
     initialLimit: 0xFFFF
 
-timer10: Timers.STM32_Timer @ sysbus 0x40014400
+timer10: Timers.STM32_Timer @ {
+        sysbus 0x40014400;
+        rcc TimerClock.APB2
+    }
     -> nvic@25
-    frequency: 10000000
+    frequency: 16000000
     initialLimit: 0xFFFF
 
-timer11: Timers.STM32_Timer @ sysbus 0x40014800
+timer11: Timers.STM32_Timer @ {
+        sysbus 0x40014800;
+        rcc TimerClock.APB2
+    }
     -> nvic@26
-    frequency: 10000000
+    frequency: 16000000
     initialLimit: 0xFFFF
 
-timer12: Timers.STM32_Timer @ sysbus 0x40001800
+timer12: Timers.STM32_Timer @ {
+        sysbus 0x40001800;
+        rcc TimerClock.APB1
+    }
     -> nvic@43
-    frequency: 10000000
+    frequency: 16000000
     initialLimit: 0xFFFF
 
-timer13: Timers.STM32_Timer @ sysbus 0x40001C00
+timer13: Timers.STM32_Timer @ {
+        sysbus 0x40001C00;
+        rcc TimerClock.APB1
+    }
     -> nvic@44
-    frequency: 10000000
+    frequency: 16000000
     initialLimit: 0xFFFF
 
-timer14: Timers.STM32_Timer @ sysbus 0x40002000
+timer14: Timers.STM32_Timer @ {
+        sysbus 0x40002000;
+        rcc TimerClock.APB1
+    }
     -> nvic@45
-    frequency: 10000000
+    frequency: 16000000
     initialLimit: 0xFFFF
 
 // Alternate function mapping connections. For more details see `stm32l071.repl`.

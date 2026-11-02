@@ -1,5 +1,9 @@
 using "platforms/cpus/stm32f777.repl"
 
+// HSE is the 8 MHz MCO from the on-board ST-LINK
+rcc:
+    hseFrequency: 8000000
+
 GreenLED: Miscellaneous.LED @ gpioPortB 0
 
 BlueLED: Miscellaneous.LED @ gpioPortB 7

@@ -73,7 +73,8 @@ can3: CAN.STMCAN @ sysbus <0x40003400, +0x400>
 
 nvic: IRQControllers.NVIC @ sysbus 0xE000E000
     priorityMask: 0xF0
-    systickFrequency: 216000000
+    // The reset clock (HSI); rcc follows the firmware's clock setup from here
+    systickFrequency: 16000000
     IRQ -> cpu@0
 
 cpu: CPU.CortexM @ sysbus
@@ -247,6 +248,8 @@ rtc: Timers.STM32F4_RTC @ sysbus 0x40002800
 
 rcc: Miscellaneous.STM32F4_RCC @ sysbus 0x40023800
     rtcPeripheral: rtc
+    // Drives systick and the registered timers; their frequencies are the reset clock (HSI)
+    systick: nvic
 
 rng: Miscellaneous.STM32_RNG @ sysbus 0x50060800
     series: STM32Series.F7
@@ -272,9 +275,12 @@ timer5: Python.PythonPeripheral @ sysbus 0x40000C24
     initable: true
     filename: "scripts/pydev/ticker.py"
 
-timer6: Timers.STM32_Timer @ sysbus <0x40001000, +0x400>
+timer6: Timers.STM32_Timer @ {
+        sysbus <0x40001000, +0x400>;
+        rcc TimerClock.APB1
+    }
     -> nvic@54
-    frequency: 10000000
+    frequency: 16000000
     initialLimit: 0xFFFF
 
 sysbus:

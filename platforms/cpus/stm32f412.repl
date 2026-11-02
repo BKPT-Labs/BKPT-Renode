@@ -1,34 +1,11 @@
 using "./stm32f4.repl"
 
+// The timers follow the RCC; on the F412, SW=3 selects PLLR
+rcc:
+    pllRSystemClock: true
+
 cpu:
     cpuType: "cortex-m4f"
-
-timer2:
-    frequency: 50000000
-
-timer3:
-    frequency: 50000000
-
-timer4:
-    frequency: 50000000
-
-timer5:
-    frequency: 50000000
-
-timer6:
-    frequency: 50000000
-
-timer7:
-    frequency: 50000000
-
-timer12:
-    frequency: 50000000
-
-timer13:
-    frequency: 50000000
-
-timer14:
-    frequency: 50000000
 
 usart6: UART.STM32_UART @ sysbus <0x40011400, +0x400>
     -> nvic@71
